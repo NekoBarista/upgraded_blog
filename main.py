@@ -193,6 +193,10 @@ def register():
         )
             db.session.add(new_user)
             db.session.commit()
+            user = User.query.filter_by(email=email).first()
+            if user.id == 1:
+                user.is_admin = True
+                db.session.commit()
             login_user(new_user)
 
             return redirect(url_for('index'))
