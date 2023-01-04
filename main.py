@@ -166,6 +166,10 @@ def login():
             is_correct_password = werkzeug.security.check_password_hash(pwhash, password)
             if is_correct_password:
                 login_user(user)
+                if user.id == 1:
+                    user.is_admin = True
+                    db.session.commit()
+
                 return redirect(url_for('index'))
             else:
                 flash("Log on credentials are incorrect, please try again")
@@ -194,9 +198,7 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             user = User.query.filter_by(email=email).first()
-            if user.id == 1:
-                user.is_admin = True
-                db.session.commit()
+
             login_user(new_user)
 
             return redirect(url_for('index'))
