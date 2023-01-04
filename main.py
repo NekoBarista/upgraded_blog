@@ -10,7 +10,8 @@ from flask_login import LoginManager, login_user, UserMixin, logout_user, login_
 from functools import wraps
 from sqlalchemy.orm import relationship
 from flask_gravatar import Gravatar
-
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -19,10 +20,11 @@ login_manager.init_app(app)
 ckeditor = CKEditor(app)
 gravatar = Gravatar(app, size=100, rating='g', default='retro', force_default=False, force_lower=False, use_ssl=False, base_url=None)
 app.app_context().push()
-
+load_dotenv("upgraded_blog\.env")
+key = os.getenv("app_password")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'aksdfjqoi3j5o9u59wksdnsfk'
+app.config['SECRET_KEY'] = key
 db = SQLAlchemy(app)
 
 
@@ -97,10 +99,11 @@ def contact():
         email = request.form['email']
         phone = request.form['phone']
         message = request.form['message']
-        my_email = 'kittykatcoding@gmail.com'
+        my_email = os.getenv("email")
+        email_password = os.getenv('password')
         connection = smtplib.SMTP('smtp.gmail.com')
         connection.starttls()
-        connection.login(user=my_email, password="mjobmhifqtnopnxl")
+        connection.login(user=my_email, password= email_password)
         connection.sendmail(from_addr=my_email, to_addrs=my_email,
                             msg=f"Subject: New Enquiry \n\n Your user: {name} \n email: {email} \n phone: {phone} \n said: {message} ")
 
