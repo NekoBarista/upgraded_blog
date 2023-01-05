@@ -26,7 +26,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL",  "sqlite:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = key
 app.config['SESSION_COOKIE_SECURE'] = False
-
 db = SQLAlchemy(app)
 
 
@@ -128,7 +127,13 @@ def post(id):
             )
             db.session.add(new_comment)
             db.session.commit()
-    return render_template('post.html', post = chosen_post, current_user = current_user, form = form)
+
+    if not chosen_post.comments:
+        has_comments = False
+    else:
+        has_comments = True
+
+    return render_template('post.html', post = chosen_post, current_user = current_user, form = form, has_comments = has_comments)
 
 
 @app.route('/makepost', methods=["GET", "POST"])
