@@ -126,6 +126,8 @@ def post(id):
             )
             db.session.add(new_comment)
             db.session.commit()
+            return render_template('post.html', post = chosen_post, current_user = current_user, form = form, has_comments = has_comments)
+
 
     if not chosen_post.comments:
         has_comments = False
