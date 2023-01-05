@@ -35,6 +35,10 @@
 <!--           Comments Area -->
           <div class="col-lg-8 col-md-10 mx-auto comment">
               <h3>Comments</h3>
+
+              {%if not has_comments %}
+              <p> No comments yet! </p>
+              {% endif %}
               <ul class="commentList">
                   {% for comment in post.comments %}
 
