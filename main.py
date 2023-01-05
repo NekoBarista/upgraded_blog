@@ -20,7 +20,7 @@ login_manager.init_app(app)
 ckeditor = CKEditor(app)
 gravatar = Gravatar(app, size=100, rating='g', default='retro', force_default=False, force_lower=False, use_ssl=False, base_url=None)
 app.app_context().push()
-key = os.getenv("app_password")
+key = os.environ.get("app_password")
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL",  "sqlite:///blog.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = key
@@ -99,8 +99,8 @@ def contact():
         email = request.form['email']
         phone = request.form['phone']
         message = request.form['message']
-        my_email = os.getenv("email")
-        email_password = os.getenv('password')
+        my_email = os.environ.get("email")
+        email_password = os.environ.get('password')
         connection = smtplib.SMTP('smtp.gmail.com')
         connection.starttls()
         connection.login(user=my_email, password= email_password)
