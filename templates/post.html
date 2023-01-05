@@ -58,12 +58,14 @@
         {% endfor %}
       {% endif %}
     {% endwith %}
+                        {% if current_user.is_authenticated %}
 
              {{ ckeditor.load() }}
 
         {{ ckeditor.config(name='comment') }}
           <!-- This is where the form will go -->
         {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+            {% endif %}
 <br>
 
           </div>
