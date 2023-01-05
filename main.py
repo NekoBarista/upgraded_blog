@@ -158,7 +158,7 @@ def make_post():
 
 @app.route('/login', methods=["POST", "GET"])
 def login():
-    form = LoginForm()
+    form = LoginForm(meta={'csrf': False})
     if form.validate_on_submit():
         email = form.email.data
         password = form.password.data
